@@ -1,8 +1,10 @@
 import random
 
-# TODO: Hash Map, Bit Mask, Binary Tree, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (in O(n) using divide and conquer)
+# ! TODO: Hash Map, Bit Mask, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (in O(n) using divide and conquer)
 
-#DONE: Stack, Queue, Binary Search, Merge Sort
+# ~ IN PROGRESS: Binary Tree
+
+# * DONE: Stack, Queue, Binary Search, Merge Sort
 
 def main() -> None:
 
@@ -20,7 +22,7 @@ def main() -> None:
     print(f"Array: {array} | Target: {target} | Found at index:", 
           binary_search_iterative(array, target, 0, len(array) - 1))
 
-# This stack class implements a stack from scratch using a list
+# This class implements a stack from scratch using a list
 class stack():
     def __init__(self) -> None: self.stack = []
     def empty(self) -> bool: return len(self.stack) == 0
@@ -33,7 +35,7 @@ class stack():
             self.stack.pop(-1)
             return output
 
-# This queue class implements a queue from scratch using a list
+# This class implements a queue from scratch using a list
 class queue():
     def __init__(self) -> None: self.queue = []
     def front(self) -> int: 
@@ -48,7 +50,42 @@ class queue():
         output = self.queue[-1]
         self.queue.pop()
         return output
-    
+
+# This class implements a graph node object with a value, left pointer, and right pointer
+class node():
+    def __init__(self, val, left = None, right = None) -> None:
+        self.val = val
+        self.left = left
+        self.right = right
+
+# This class implements a binary tree data structure with insertion, deletion, traversal, and re-balancing
+class binary_search_tree():
+    def __init__(self, root = None) -> None:
+        self.root = root
+    def insert(self, node) -> None:
+        if not self.root: self.root = node
+        else:
+            i = self.root
+            while i.left != node and i.right != node:
+                if node.val <= i.val:
+                    if i.left: i = i.left
+                    else: i.left = node
+                else:
+                    if i.right: i = i.right
+                    else: i.right = node
+    def delete(self, val) -> bool:
+        if not self.root: return False
+        i = self.root
+        while i and i.val != val:
+            parent = i
+            if val <= i.val: i = i.left
+            else: i = i.right
+        if not i: return False
+        return True
+        # ! check for deleting last element & replace target with predecessor/successor (adjusting leaves and parent pointers accordingly)
+    #def balance()
+    #def traverse(pre-order, in-order, post-order)
+        
 # merge_sort takes an array and returns it in sorted order in O(n log n)
 def merge_sort(array) -> list:
     if len(array) <= 1: return array
