@@ -1,6 +1,6 @@
-import random
+from random import sample, randint
 
-# ! TODO: Hash Map, Bit Mask, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (in O(n) using divide and conquer)
+# ! TODO: Hash Map, Bit Mask, Linked List (circular doubly-linked), heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
 
 # ~ IN PROGRESS: Binary Tree
 
@@ -8,8 +8,37 @@ import random
 
 def main() -> None:
 
-    array = random.sample(range(0, 15), 10)
-    target = random.randint(0, 15)
+    # BST Testing
+    """
+    BT = BST()
+    BT.insert(node(5))
+    BT.insert(node(1))
+    BT.insert(node(11))
+    BT.insert(node(7))
+    BT.insert(node(18))
+    BT.insert(node(0))
+    BT.traverse(BT.root)
+    print(BT.delete(1))
+    BT.traverse(BT.root)
+    print(BT.delete(11))
+    BT.traverse(BT.root)
+    print(BT.delete(0))
+    BT.traverse(BT.root)
+    print(BT.delete(5))
+    BT.traverse(BT.root)
+    print(BT.delete(7))
+    BT.traverse(BT.root)
+    print(BT.delete(18))
+    BT.traverse(BT.root)
+    print(BT.delete(5))
+    BT.traverse(BT.root)
+            5
+        1       11
+    0       7       18
+    """
+
+    array = sample(range(0, 15), 10)
+    target = randint(0, 15)
 
     print(f"\033[95m{"MERGE SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", merge_sort(array))
@@ -53,15 +82,17 @@ class queue():
 
 # This class implements a graph node object with a value, left pointer, and right pointer
 class node():
-    def __init__(self, val, left = None, right = None) -> None:
+    def __init__(self, val, left=None, right=None) -> None:
         self.val = val
         self.left = left
         self.right = right
 
-# This class implements a binary tree data structure with insertion, deletion, traversal, and re-balancing
-class binary_search_tree():
-    def __init__(self, root = None) -> None:
+# This class implements a binary search tree data structure with insertion, deletion, traversal, and re-balancing
+class BST():
+    def __init__(self, root=None) -> None:
         self.root = root
+
+    # insert() adds a new node to the tree
     def insert(self, node) -> None:
         if not self.root: self.root = node
         else:
@@ -73,18 +104,86 @@ class binary_search_tree():
                 else:
                     if i.right: i = i.right
                     else: i.right = node
-    def delete(self, val) -> bool:
-        if not self.root: return False
+
+    # delete() removes the node with the target value from the tree
+    def delete(self, val=None) -> bool:
+        if val == None:
+            self.root = None
+            return True
+        elif not self.root: return False
+
+        parent = None
         i = self.root
-        while i and i.val != val:
+        while i and i.val != val: # finding target value
             parent = i
             if val <= i.val: i = i.left
             else: i = i.right
         if not i: return False
+
+        if not parent: # deleting root node
+            if not i.left or not i.right:
+                self.root = i.left if i.left else i.right
+            else:
+                j = i
+                while j.left or j.right:
+                    j_parent = j
+                    if j.left: j = j.left
+                    else: j = j.right
+                if j_parent.left == j: j_parent.left = None
+                else: j_parent.right = None
+                self.root = j
+                j.left = i.left
+                j.right = i.right
+
+        # deleting a node with less than 2 children
+        elif not i.left or not i.right:
+            if parent.left == i: parent.left = i.left if i.left else i.right
+            else: parent.right = i.right if i.right else i.left
+
+        else: # replace node with predecessor (can be successor)
+            j = i
+            while j.left or j.right:
+                j_parent = j
+                if j.left: j = j.left
+                else: j = j.right
+            if j_parent.left == j: j_parent.left = None
+            else: j_parent.right = None
+            if parent.left == i: parent.left = j
+            else: parent.right = j
+            j.left = i.left
+            j.right = i.right
         return True
-        # ! check for deleting last element & replace target with predecessor/successor (adjusting leaves and parent pointers accordingly)
-    #def balance()
-    #def traverse(pre-order, in-order, post-order)
+    
+    # traverse() prints the tree traversal in pre-order, in-order, or post-order
+    def traverse(self, node, pre=False, post=False) -> node:
+        if not node: return
+        if pre and not post: # pre-order
+            print(node.val, end=" ")
+            self.traverse(node.left, pre=pre)
+            self.traverse(node.right, pre=pre)
+        elif post and not pre: #post-order
+            self.traverse(node.left, post=post)
+            self.traverse(node.right, post=post)
+            print(node.val, end=" ")
+        else: # in-order
+            self.traverse(node.left)
+            print(node.val, end=" ")
+            self.traverse(node.right)
+        if node == self.root: print()
+        return node
+    
+    # search() returns a node with the target value or None
+    def search(self, val) -> node:
+        i = self.root
+        while i and i.val != val: # finding target value
+            if val == i.val: return i
+            elif val < i.val: i = i.left
+            else: i = i.right
+        return None
+    
+    # ! TODO: balance() re-balances the binary search tree
+    def balance():
+        return
         
 # merge_sort takes an array and returns it in sorted order in O(n log n)
 def merge_sort(array) -> list:
@@ -111,7 +210,8 @@ def binary_search_recursive(array, target, low, high) -> int:
     mid = (high + low) // 2
     if low > high: return
     elif array[mid] == target: return mid
-    elif array[mid] > target: return binary_search_recursive(array, target, low, mid - 1)
+    elif array[mid] > target: 
+        return binary_search_recursive(array, target, low, mid - 1)
     else: return binary_search_recursive(array, target, mid + 1, high)
     
 # binary_search_iterative takes in a sorted array, target value, low search index, and high search index which it will use to iteratively find the target value in the array in O(log n) time.
