@@ -4,7 +4,7 @@ from random import sample, randint
 
 # ~ IN PROGRESS: Binary Tree
 
-# * DONE: Stack, Queue, Binary Search, Merge Sort
+# * DONE: Node, Stack, Queue, Binary Search, Merge Sort
 
 def main() -> None:
 
