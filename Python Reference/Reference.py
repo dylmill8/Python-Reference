@@ -1,22 +1,22 @@
 from random import sample, randint
 
-# ! TODO: Hash Map, Bit Mask, Linked List (circular doubly-linked), heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
+# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
 
 # ~ IN PROGRESS: Binary Tree
 
-# * DONE: Node, Stack, Queue, Binary Search, Merge Sort
+# * DONE: Node, Stack, Queue, Linked List, Binary Search, Merge Sort
 
 def main() -> None:
 
     # BST Testing
     """
     BT = BST()
-    BT.insert(node(5))
-    BT.insert(node(1))
-    BT.insert(node(11))
-    BT.insert(node(7))
-    BT.insert(node(18))
-    BT.insert(node(0))
+    BT.insert(Node(5))
+    BT.insert(Node(1))
+    BT.insert(Node(11))
+    BT.insert(Node(7))
+    BT.insert(Node(18))
+    BT.insert(Node(0))
     BT.traverse(BT.root)
     print(BT.delete(1))
     BT.traverse(BT.root)
@@ -51,8 +51,8 @@ def main() -> None:
     print(f"Array: {array} | Target: {target} | Found at index:", 
           binary_search_iterative(array, target, 0, len(array) - 1))
 
-# This class implements a stack from scratch using a list
-class stack():
+# This class implements a stack using a list
+class Stack():
     def __init__(self) -> None: self.stack = []
     def empty(self) -> bool: return len(self.stack) == 0
     def size(self) -> int: return len(self.stack)
@@ -64,8 +64,8 @@ class stack():
             self.stack.pop(-1)
             return output
 
-# This class implements a queue from scratch using a list
-class queue():
+# This class implements a queue using a list
+class Queue():
     def __init__(self) -> None: self.queue = []
     def front(self) -> int: 
         if len(self.queue) != 0:
@@ -81,18 +81,74 @@ class queue():
         return output
 
 # This class implements a graph node object with a value, left pointer, and right pointer
-class node():
+class Node():
     def __init__(self, val, left=None, right=None) -> None:
         self.val = val
         self.left = left
         self.right = right
 
-# This class implements a binary search tree data structure with insertion, deletion, traversal, and re-balancing
+# This class implements a linked list of nodes using their right pointer with size checking, insertion, deletion, reversal, and printing
+class Linked_List():
+    def __init__(self, head=None) -> None:
+        self.head = head
+
+    def size(self) -> int:
+        count = 0
+        temp = self.head
+        while temp:
+            count += 1
+            temp = temp.right
+        return count
+    
+    def insert(self, val) -> None:
+        node = Node(val)
+        if not self.head: 
+            self.head = node
+            return
+        temp = self.head
+        while temp.right:
+            temp = temp.right
+        temp.right = node
+    
+    def delete(self, val) -> Node:
+        if not self.head: return None
+        elif self.head == val:
+            node = self.head
+            self.head = self.head.right
+            return node
+        parent = self.head
+        node = self.head.right
+        while node:
+            if node.val == val:
+                parent.right = node.right
+                return node
+            parent = node
+            node = node.right
+        return None
+                
+    def reverse(self) -> None:
+        if not self.head: return
+        p1 = None
+        p2 = self.head.right
+        while self.head:
+            self.head.right = p1
+            p1 = self.head
+            self.head = p2
+            if p2: p2 = p2.right
+        self.head = p1
+
+    def print(self) -> None:
+        node = self.head
+        while node: 
+            print(node.val, end=" ")
+            node = node.right
+        print()
+
+# This class implements a binary search tree data structure with insertion, deletion, traversal, searching, and re-balancing
 class BST():
     def __init__(self, root=None) -> None:
         self.root = root
 
-    # insert() adds a new node to the tree
     def insert(self, node) -> None:
         if not self.root: self.root = node
         else:
@@ -105,7 +161,6 @@ class BST():
                     if i.right: i = i.right
                     else: i.right = node
 
-    # delete() removes the node with the target value from the tree
     def delete(self, val=None) -> bool:
         if val == None:
             self.root = None
@@ -155,7 +210,7 @@ class BST():
         return True
     
     # traverse() prints the tree traversal in pre-order, in-order, or post-order
-    def traverse(self, node, pre=False, post=False) -> node:
+    def traverse(self, node, pre=False, post=False) -> Node:
         if not node: return
         if pre and not post: # pre-order
             print(node.val, end=" ")
@@ -172,10 +227,9 @@ class BST():
         if node == self.root: print()
         return node
     
-    # search() returns a node with the target value or None
-    def search(self, val) -> node:
+    def search(self, val) -> Node:
         i = self.root
-        while i and i.val != val: # finding target value
+        while i and i.val != val:
             if val == i.val: return i
             elif val < i.val: i = i.left
             else: i = i.right
