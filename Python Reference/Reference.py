@@ -1,4 +1,5 @@
 from random import sample, randint
+from math import log, floor
 
 # ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
 
@@ -35,6 +36,16 @@ def main() -> None:
             5
         1       11
     0       7       18
+
+    BT = BST()
+    BT.insert(Node(5))
+    BT.insert(Node(1))
+    BT.insert(Node(11))
+    BT.insert(Node(7))
+    BT.insert(Node(18))
+    BT.insert(Node(0))
+    BT.traverse(BT.root)
+    BT.balance()
     """
 
     array = sample(range(0, 15), 10)
@@ -82,7 +93,7 @@ class Queue():
 
 # This class implements a graph node object with a value, left pointer, and right pointer
 class Node():
-    def __init__(self, val, left=None, right=None) -> None:
+    def __init__(self, val=None, left=None, right=None) -> None:
         self.val = val
         self.left = left
         self.right = right
@@ -235,9 +246,48 @@ class BST():
             else: i = i.right
         return None
     
-    # ! TODO: balance() re-balances the binary search tree
-    def balance():
-        return
+    # balance() uses the Day Day–Stout–Warren algorithm: 
+    # https://en.wikipedia.org/wiki/Day%E2%80%93Stout%E2%80%93Warren_algorithm
+    def balance(self):
+        if not self.root: return
+        pseudo_root = Node(right=self.root)
+        size = 0 # number of elements in the tree
+        tail = pseudo_root # the node at the end of the sorted linked list
+        rest = pseudo_root.right # root node of remaining tree to be converted
+        while rest: 
+            
+            # no left node means we have a linked list of sorted nodes up to node rest, so proceed to the remaining unconverted tree
+            if not rest.left:
+                tail = rest
+                rest = rest.right
+                size += 1 # update size as rest traverses the linked list
+            
+            # rotate the node to the left of rest to be the parent, putting it in sorted order and in a linked list
+            else:
+                temp = rest.left
+                rest.left = temp.right
+                temp.right = rest
+                rest = temp
+                tail.right = temp
+            
+        # leaves = size + 1 − 2^{⌊log2(size + 1)⌋}
+        leaves = size + 1 - pow(2, floor(log(size + 1, 2)))
+        BST.compress(pseudo_root, leaves)
+        size = size - leaves
+        while size > 1:
+            BST.compress(pseudo_root, size // 2)
+            size = size // 2
+        self.root = pseudo_root.right
+    
+    @staticmethod
+    def compress(root, count) -> None:
+        scanner = root
+        for i in range(1, count + 1):
+            child = scanner.right
+            scanner.right = child.right
+            scanner = scanner.right
+            child.right = scanner.left
+            scanner.left = child
         
 # merge_sort takes an array and returns it in sorted order in O(n log n)
 def merge_sort(array) -> list:
