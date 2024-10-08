@@ -3,50 +3,11 @@ from math import log, floor
 
 # ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
 
-# ~ IN PROGRESS: Binary Tree
+# ~ IN PROGRESS:
 
-# * DONE: Node, Stack, Queue, Linked List, Binary Search, Merge Sort
+# * DONE: Node, Stack, Queue, Linked List, Binary Search, Merge Sort, Binary Search Tree
 
 def main() -> None:
-
-    # BST Testing
-    """
-    BT = BST()
-    BT.insert(Node(5))
-    BT.insert(Node(1))
-    BT.insert(Node(11))
-    BT.insert(Node(7))
-    BT.insert(Node(18))
-    BT.insert(Node(0))
-    BT.traverse(BT.root)
-    print(BT.delete(1))
-    BT.traverse(BT.root)
-    print(BT.delete(11))
-    BT.traverse(BT.root)
-    print(BT.delete(0))
-    BT.traverse(BT.root)
-    print(BT.delete(5))
-    BT.traverse(BT.root)
-    print(BT.delete(7))
-    BT.traverse(BT.root)
-    print(BT.delete(18))
-    BT.traverse(BT.root)
-    print(BT.delete(5))
-    BT.traverse(BT.root)
-            5
-        1       11
-    0       7       18
-
-    BT = BST()
-    BT.insert(Node(5))
-    BT.insert(Node(1))
-    BT.insert(Node(11))
-    BT.insert(Node(7))
-    BT.insert(Node(18))
-    BT.insert(Node(0))
-    BT.traverse(BT.root)
-    BT.balance()
-    """
 
     array = sample(range(0, 15), 10)
     target = randint(0, 15)
@@ -160,7 +121,8 @@ class BST():
     def __init__(self, root=None) -> None:
         self.root = root
 
-    def insert(self, node) -> None:
+    def insert(self, val) -> None:
+        node = Node(val)
         if not self.root: self.root = node
         else:
             i = self.root
@@ -186,20 +148,33 @@ class BST():
             else: i = i.right
         if not i: return False
 
+        # helper function for replacing the node i with its predecessor
+        def replace_predecessor(i, parent) -> None:
+            j = i.left
+            if not j.right: # predecessor has no right child, replace i with it
+                if parent and parent.left == i: parent.left = j
+                elif parent: parent.right = j
+                else: self.root = j
+                j.right = i.right
+            else:
+                print(True)
+                while j.right:
+                    j_parent = j
+                    j = j.right
+                j_parent.right = j.left # remove predecessor
+
+                # replace i with predecessor
+                if parent and parent.left == i: parent.left = j
+                elif parent: parent.right = j
+                else: self.root = j
+                j.left = i.left
+                j.right = i.right
+
         if not parent: # deleting root node
             if not i.left or not i.right:
                 self.root = i.left if i.left else i.right
             else:
-                j = i
-                while j.left or j.right:
-                    j_parent = j
-                    if j.left: j = j.left
-                    else: j = j.right
-                if j_parent.left == j: j_parent.left = None
-                else: j_parent.right = None
-                self.root = j
-                j.left = i.left
-                j.right = i.right
+                replace_predecessor(i, None)
 
         # deleting a node with less than 2 children
         elif not i.left or not i.right:
@@ -207,17 +182,8 @@ class BST():
             else: parent.right = i.right if i.right else i.left
 
         else: # replace node with predecessor (can be successor)
-            j = i
-            while j.left or j.right:
-                j_parent = j
-                if j.left: j = j.left
-                else: j = j.right
-            if j_parent.left == j: j_parent.left = None
-            else: j_parent.right = None
-            if parent.left == i: parent.left = j
-            else: parent.right = j
-            j.left = i.left
-            j.right = i.right
+            replace_predecessor(i, parent)
+
         return True
     
     # traverse() prints the tree traversal in pre-order, in-order, or post-order
@@ -240,13 +206,13 @@ class BST():
     
     def search(self, val) -> Node:
         i = self.root
-        while i and i.val != val:
+        while i:
             if val == i.val: return i
             elif val < i.val: i = i.left
             else: i = i.right
         return None
     
-    # balance() uses the Day Day–Stout–Warren algorithm: 
+    # balance() uses the Day–Stout–Warren algorithm to form a complete BST: 
     # https://en.wikipedia.org/wiki/Day%E2%80%93Stout%E2%80%93Warren_algorithm
     def balance(self):
         if not self.root: return
@@ -269,25 +235,25 @@ class BST():
                 temp.right = rest
                 rest = temp
                 tail.right = temp
+
+        # ! helper function
+        def compress(root, count) -> None:
+            scanner = root
+            for i in range(1, count + 1):
+                child = scanner.right
+                scanner.right = child.right
+                scanner = scanner.right
+                child.right = scanner.left
+                scanner.left = child
             
         # leaves = size + 1 − 2^{⌊log2(size + 1)⌋}
         leaves = size + 1 - pow(2, floor(log(size + 1, 2)))
-        BST.compress(pseudo_root, leaves)
+        compress(pseudo_root, leaves)
         size = size - leaves
         while size > 1:
-            BST.compress(pseudo_root, size // 2)
+            compress(pseudo_root, size // 2)
             size = size // 2
         self.root = pseudo_root.right
-    
-    @staticmethod
-    def compress(root, count) -> None:
-        scanner = root
-        for i in range(1, count + 1):
-            child = scanner.right
-            scanner.right = child.right
-            scanner = scanner.right
-            child.right = scanner.left
-            scanner.left = child
         
 # merge_sort takes an array and returns it in sorted order in O(n log n)
 def merge_sort(array) -> list:
