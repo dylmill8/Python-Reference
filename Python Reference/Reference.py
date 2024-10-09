@@ -236,20 +236,21 @@ class BST():
                 rest = temp
                 tail.right = temp
 
-        # ! helper function
+        # helper function that rotates a tree (in the form of a vine) into a complete tree by using the known number of nodes at a height, count, in a complete tree and rotating count number of nodes into that level
         def compress(root, count) -> None:
             scanner = root
-            for i in range(1, count + 1):
+            for _ in range(count): # rotates nodes to the left
                 child = scanner.right
                 scanner.right = child.right
                 scanner = scanner.right
                 child.right = scanner.left
                 scanner.left = child
             
+        # number of leaves in the bottom level of a complete tree
         # leaves = size + 1 − 2^{⌊log2(size + 1)⌋}
         leaves = size + 1 - pow(2, floor(log(size + 1, 2)))
         compress(pseudo_root, leaves)
-        size = size - leaves
+        size = size - leaves # number of leaves one level up
         while size > 1:
             compress(pseudo_root, size // 2)
             size = size // 2
