@@ -1,9 +1,9 @@
 from random import sample, randint
 from math import log, floor
 
-# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, Insertion Sort, Quicksort, DFS, BFS, Adjacency Matrix/List Dijkstra's, Bellman Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer)
+# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree
 
-# ~ IN PROGRESS:
+# ~ IN PROGRESS: Insertion Sort, Quicksort
 
 # * DONE: Node, Stack, Queue, Linked List, Binary Search, Merge Sort, Binary Search Tree
 
