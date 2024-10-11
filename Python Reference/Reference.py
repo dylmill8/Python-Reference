@@ -1,11 +1,11 @@
 from random import sample, randint
 from math import log, floor
 
-# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
+# ! TODO: Hash Map, Bit Mask, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
 
-# ~ IN PROGRESS:
+# ~ IN PROGRESS: heap
 
-# * DONE: Node, Stack, Queue, Linked List, Binary Search Tree, Binary Search, Insertion Sort, Quicksort, Merge Sort
+# * DONE: Node, Stack, Queue, Linked List, Circular Doubly-linked List, Binary Search Tree, Binary Search, Insertion Sort, Quicksort, Merge Sort
 
 def main() -> None:
 
@@ -118,6 +118,65 @@ class Linked_List():
     def print(self) -> None:
         node = self.head
         while node: 
+            print(node.val, end=" ")
+            node = node.right
+        print()
+
+class Circular_Doubly_linked_list():
+    def __init__(self, head=None) -> None:
+        self.head = head
+    
+    def size(self) -> int:
+        if not self.head: return 0
+        count = 1
+        temp = self.head.right
+        while temp != self.head:
+            count += 1
+            temp = temp.right
+        return count
+
+    def insert(self, val):
+        node = Node(val)
+        if not self.head: 
+            node.right = node
+            node.left = node
+            self.head = node
+            return
+        
+        node.right = self.head
+        node.left = self.head.left
+        self.head.left = node
+        node.left.right = node
+
+    def delete(self, val) -> Node:
+
+        # deleting root
+        if not self.head: return None
+        elif self.head.val == val and self.head.right == self.head:
+            node = self.head
+            self.head = None
+            return node
+        elif self.head.val == val:
+            node = self.head
+            self.head = self.head.right
+            self.head.left = node.left
+            node.left.right = self.head
+            return node
+
+        node = self.head.right
+        while node != self.head:
+            if node.val == val:
+                node.left.right = node.right
+                node.right.left = node.left
+                return node
+            node = node.right
+        return None
+
+    def print(self) -> None:
+        if not self.head: return
+        print(self.head.val, end=" ")
+        node = self.head.right
+        while node != self.head:
             print(node.val, end=" ")
             node = node.right
         print()
