@@ -58,14 +58,14 @@ class Queue():
         self.queue.pop()
         return output
 
-# This class implements a graph node object with a value, left pointer, and right pointer
+# This class implements a graph node with a value and left and right pointers
 class Node():
     def __init__(self, val=None, left=None, right=None) -> None:
         self.val = val
         self.left = left
         self.right = right
 
-# This class implements a linked list of nodes using their right pointer with size checking, insertion, deletion, reversal, and printing
+# This class implements a linked list of nodes
 class Linked_List():
     def __init__(self, head=None) -> None:
         self.head = head
@@ -122,6 +122,7 @@ class Linked_List():
             node = node.right
         print()
 
+# This class implements a circular doubly-linked list of nodes
 class Circular_Doubly_linked_list():
     def __init__(self, head=None) -> None:
         self.head = head
@@ -331,7 +332,7 @@ def insertion_sort(array) -> list:
                 j -= 1
     return array
 
-# quicksort sorts an array in O(n log n) in place
+# quicksort sorts an array in O(n log n) in place recursively
 def quicksort(array, low, high) -> list:
     if low >= high: return
     pivot = array[high]
@@ -345,7 +346,7 @@ def quicksort(array, low, high) -> list:
     quicksort(array, i + 2, high)
     return array
 
-# merge_sort takes an array and returns it in sorted order in O(n log n)
+# merge_sort sorts an array in O(n log n) recursively
 def merge_sort(array) -> list:
     if len(array) <= 1: return array
     mid = len(array) // 2
@@ -365,7 +366,7 @@ def merge_sort(array) -> list:
     A.extend(R[j:])
     return A
     
-# binary_search_recursive takes in a sorted array, target value, low search index, and high search index which it will use to recursively find the target value in the array in O(log n) time.
+# binary_search_recursive finds a target value from the low to high indices in a sorted array in O(log n) time.
 def binary_search_recursive(array, target, low, high) -> int:
     mid = (high + low) // 2
     if low > high: return
@@ -374,7 +375,7 @@ def binary_search_recursive(array, target, low, high) -> int:
         return binary_search_recursive(array, target, low, mid - 1)
     else: return binary_search_recursive(array, target, mid + 1, high)
     
-# binary_search_iterative takes in a sorted array, target value, low search index, and high search index which it will use to iteratively find the target value in the array in O(log n) time.
+# binary_search_iterative finds a target value from the low to high indices in a sorted array in O(log n) time.
 def binary_search_iterative(array, target, low, high) -> int:
     while low <= high:
         mid = (low + high) // 2
