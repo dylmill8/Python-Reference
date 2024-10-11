@@ -1,16 +1,22 @@
 from random import sample, randint
 from math import log, floor
 
-# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree
+# ! TODO: Hash Map, Bit Mask, Circular Doubly-linked List, heap, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
 
-# ~ IN PROGRESS: Insertion Sort, Quicksort
+# ~ IN PROGRESS:
 
-# * DONE: Node, Stack, Queue, Linked List, Binary Search, Merge Sort, Binary Search Tree
+# * DONE: Node, Stack, Queue, Linked List, Binary Search Tree, Binary Search, Insertion Sort, Quicksort, Merge Sort
 
 def main() -> None:
 
     array = sample(range(0, 15), 10)
     target = randint(0, 15)
+
+    print(f"\033[95m{"INSERTION SORT ||"}\033[00m", end = " ")
+    print(f"Input: {array} | Output:", insertion_sort(array.copy()))
+
+    print(f"\033[95m{"QUICKSORT ||"}\033[00m", end = " ")
+    print(f"Input: {array} | Output:", quicksort(array, 0, len(array) - 1))
 
     print(f"\033[95m{"MERGE SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", merge_sort(array))
@@ -255,7 +261,31 @@ class BST():
             compress(pseudo_root, size // 2)
             size = size // 2
         self.root = pseudo_root.right
-        
+
+# insertion_sort sorts an array in O(n^2)
+def insertion_sort(array) -> list:
+    for i in range(len(array) - 1):
+        j = i + 1
+        if array[j] < array[i]:
+            while j > 0 and array[j] < array[j - 1]:
+                array[j], array[j - 1] = array[j -1], array[j]
+                j -= 1
+    return array
+
+# quicksort sorts an array in O(n log n) in place
+def quicksort(array, low, high) -> list:
+    if low >= high: return
+    pivot = array[high]
+    i = low - 1
+    for j in range(low, high):
+        if array[j] < pivot:
+            i += 1
+            array[i], array[j] = array[j], array[i]
+    array[high], array[i + 1] = array[i + 1], array[high] # swap in pivot
+    quicksort(array, low, i)
+    quicksort(array, i + 2, high)
+    return array
+
 # merge_sort takes an array and returns it in sorted order in O(n log n)
 def merge_sort(array) -> list:
     if len(array) <= 1: return array
