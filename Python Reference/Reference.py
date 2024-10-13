@@ -3,7 +3,7 @@ from math import log, floor
 
 # ! TODO: Hash Map, Bit Mask, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
 
-# ~ IN PROGRESS: heap
+# ~ IN PROGRESS: heap, heap sort
 
 # * DONE: Node, Stack, Queue, Linked List, Circular Doubly-linked List, Binary Search Tree, Binary Search, Insertion Sort, Quicksort, Merge Sort
 
@@ -321,6 +321,31 @@ class BST():
             compress(pseudo_root, size // 2)
             size = size // 2
         self.root = pseudo_root.right
+
+class Heap():
+    def __init__(self) -> None:
+        return
+        
+    def heapify():
+        return
+
+    def insert():
+        return
+    
+    def delete():
+        return
+    
+    def pop():
+        return
+    
+    def peek():
+        return
+
+    def sink():
+        return
+
+    def swim():
+        return
 
 # insertion_sort sorts an array in O(n^2)
 def insertion_sort(array) -> list:
