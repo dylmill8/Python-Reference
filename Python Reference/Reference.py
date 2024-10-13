@@ -322,11 +322,20 @@ class BST():
             size = size // 2
         self.root = pseudo_root.right
 
-class Heap():
-    def __init__(self) -> None:
-        return
+class Min_Heap():
+    def __init__(self, heap=None) -> None:
+        if not heap: self.heap = []
+        else: self.heap = self.heapify(heap, len(heap) // 2)
         
-    def heapify():
+    def heapify(self, heap, index) -> None:
+        L = (index * 2) + 1
+        R = (index * 2) + 2
+        if L >= len(heap) and R >= len(heap): return
+        elif heap[index] < heap[L] or heap[index] < heap[R]:
+            if heap[L] <= heap[R]: heap[index], heap[L] = heap[L], heap[index]
+            else: heap[index], heap[R] = heap[R], heap[index]
+        
+        self.heapify(heap, index - 1)
         return
 
     def insert():
