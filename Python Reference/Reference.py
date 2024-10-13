@@ -15,6 +15,9 @@ def main() -> None:
     print(f"\033[95m{"INSERTION SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", insertion_sort(array.copy()))
 
+    print(f"\033[95m{"HEAP SORT ||"}\033[00m", end = " ")
+    print(f"Input: {array} | Output:", heap_sort(array.copy()))
+
     print(f"\033[95m{"QUICKSORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", quicksort(array, 0, len(array) - 1))
 
@@ -322,6 +325,7 @@ class BST():
             size = size // 2
         self.root = pseudo_root.right
 
+# This class implements a min heap using a list
 class Min_Heap():
     def __init__(self, heap=None) -> None:
         if not heap: self.heap = []
@@ -338,8 +342,13 @@ class Min_Heap():
         self.heap.append(val)
         self.swim_up(self.heap, len(self.heap) - 1)
     
-    def delete():
-        return
+    def delete(self, val) -> bool:
+        try: index = self.heap.index(val)
+        except ValueError: return False
+        self.heap[index] = float('-inf')
+        self.swim_up(self.heap, index)
+        self.pop()
+        return True
     
     def pop(self) -> int:
         if not self.heap or len(self.heap) < 1: return None
@@ -381,6 +390,14 @@ def insertion_sort(array) -> list:
                 array[j], array[j - 1] = array[j -1], array[j]
                 j -= 1
     return array
+
+# heap_sort sorts an array in O(n log n) using a min heap data structure
+def heap_sort(array) -> list:
+    heap = Min_Heap(array)
+    A = []
+    while len(heap.heap) > 0:
+        A.append(heap.pop())
+    return A
 
 # quicksort sorts an array in O(n log n) in place recursively
 def quicksort(array, low, high) -> list:
