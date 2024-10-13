@@ -325,18 +325,14 @@ class BST():
 class Min_Heap():
     def __init__(self, heap=None) -> None:
         if not heap: self.heap = []
-        else: self.heap = self.heapify(heap, len(heap) // 2)
+        else: 
+            self.min_heapify(heap)
+            self.heap = heap
         
-    def heapify(self, heap, index) -> None:
-        L = (index * 2) + 1
-        R = (index * 2) + 2
-        if L >= len(heap) and R >= len(heap): return
-        elif heap[index] < heap[L] or heap[index] < heap[R]:
-            if heap[L] <= heap[R]: heap[index], heap[L] = heap[L], heap[index]
-            else: heap[index], heap[R] = heap[R], heap[index]
-        
-        self.heapify(heap, index - 1)
-        return
+    def min_heapify(self, heap) -> None:
+        n = (len(heap) - 1) // 2
+        for i in range(n, -1, -1):
+            self.sink(heap, i)
 
     def insert():
         return
@@ -350,8 +346,17 @@ class Min_Heap():
     def peek():
         return
 
-    def sink():
-        return
+    def sink(self, heap, index) -> None:
+        L = (index * 2) + 1
+        R = (index * 2) + 2
+        swap = index
+
+        if L < len(heap) and heap[L] < heap[index]: swap = L
+        elif R < len(heap) and heap[R] < heap[swap]: swap = R
+        
+        if swap != index:
+            heap[index], heap[swap] = heap[swap], heap[index]
+            self.sink(heap, swap)
 
     def swim():
         return
