@@ -12,13 +12,6 @@ def main() -> None:
     array = sample(range(0, 15), 10)
     target = randint(0, 15)
 
-    heap = Min_Heap()
-    print(heap.heap)
-    heap.insert(-1)
-    heap.insert(0)
-    heap.insert(-2)
-    print(heap.heap)
-
     print(f"\033[95m{"INSERTION SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", insertion_sort(array.copy()))
 
