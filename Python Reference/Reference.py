@@ -12,36 +12,12 @@ def main() -> None:
     array = sample(range(0, 15), 10)
     target = randint(0, 15)
 
-    heap = Min_Heap(array)
+    heap = Min_Heap()
     print(heap.heap)
-    print(heap.pop())
+    heap.insert(-1)
+    heap.insert(0)
+    heap.insert(-2)
     print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-    print(heap.pop())
-    print(heap.heap)
-
-
 
     print(f"\033[95m{"INSERTION SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", insertion_sort(array.copy()))
@@ -365,8 +341,9 @@ class Min_Heap():
         for i in range(n, -1, -1):
             self.sink_down(heap, i)
 
-    def insert():
-        return
+    def insert(self, val) -> None:
+        self.heap.append(val)
+        self.swim_up(self.heap, len(self.heap) - 1)
     
     def delete():
         return
@@ -395,8 +372,12 @@ class Min_Heap():
             heap[index], heap[swap] = heap[swap], heap[index]
             self.sink_down(heap, swap)
 
-    def swim_up():
-        return
+    def swim_up(self, heap, index) -> None:
+        if index == 0: return
+        parent = (index - 1) // 2
+        if heap[parent] > heap[index]:
+            heap[parent], heap[index] = heap[index], heap[parent]
+            self.swim_up(heap, parent)
 
 # insertion_sort sorts an array in O(n^2)
 def insertion_sort(array) -> list:
