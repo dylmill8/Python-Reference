@@ -12,6 +12,37 @@ def main() -> None:
     array = sample(range(0, 15), 10)
     target = randint(0, 15)
 
+    heap = Min_Heap(array)
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+    print(heap.pop())
+    print(heap.heap)
+
+
+
     print(f"\033[95m{"INSERTION SORT ||"}\033[00m", end = " ")
     print(f"Input: {array} | Output:", insertion_sort(array.copy()))
 
@@ -332,7 +363,7 @@ class Min_Heap():
     def min_heapify(self, heap) -> None:
         n = (len(heap) - 1) // 2
         for i in range(n, -1, -1):
-            self.sink(heap, i)
+            self.sink_down(heap, i)
 
     def insert():
         return
@@ -340,25 +371,31 @@ class Min_Heap():
     def delete():
         return
     
-    def pop():
-        return
+    def pop(self) -> int:
+        if not self.heap or len(self.heap) < 1: return None
+        ret = self.heap[0]
+        self.heap[0], self.heap[-1] = self.heap[-1], self.heap[0]
+        self.heap.pop()
+        self.sink_down(self.heap, 0)
+        return ret
     
-    def peek():
-        return
+    def peek(self) -> int:
+        if not self.heap or len(self.heap) < 1: return None
+        return self.heap[0]
 
-    def sink(self, heap, index) -> None:
+    def sink_down(self, heap, index) -> None:
         L = (index * 2) + 1
         R = (index * 2) + 2
         swap = index
 
         if L < len(heap) and heap[L] < heap[index]: swap = L
-        elif R < len(heap) and heap[R] < heap[swap]: swap = R
+        if R < len(heap) and heap[R] < heap[swap]: swap = R
         
         if swap != index:
             heap[index], heap[swap] = heap[swap], heap[index]
-            self.sink(heap, swap)
+            self.sink_down(heap, swap)
 
-    def swim():
+    def swim_up():
         return
 
 # insertion_sort sorts an array in O(n^2)
