@@ -1,11 +1,11 @@
 from random import sample, randint
 from math import log, floor
 
-# ! TODO: Hash Map, Bit Mask, Sliding Window, Backtracing, DFS, BFS, Adjacency Matrix/List, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
+# ! TODO: Hash Map, Bit Mask, Sliding Window, Backtracing, DFS, BFS, Dijkstra's, Bellman-Ford, KNP, Kruskal's, Prim's, Topological Sort, Floyd Warshall's, Dynamic Programming, Kth Smallest Element (O(n) using divide and conquer), Huffman Coding Tree, Flow Network
 
-# ~ IN PROGRESS: heap, heap sort
+# ~ IN PROGRESS: Adjacency List, Adjacency Matrix
 
-# * DONE: Node, Stack, Queue, Linked List, Circular Doubly-linked List, Binary Search Tree, Binary Search, Insertion Sort, Quicksort, Merge Sort
+# * DONE: Node, Stack, Queue, Linked List, Circular Doubly-linked List, Binary Search Tree, Heap, Binary Search, Insertion Sort, Heap Sort, Quicksort, Merge Sort
 
 def main() -> None:
 
@@ -380,6 +380,24 @@ class Min_Heap():
         if heap[parent] > heap[index]:
             heap[parent], heap[index] = heap[index], heap[parent]
             self.swim_up(heap, parent)
+
+class Adjacency_List:
+    def __init__(self):
+        self.adjacent = {}
+        
+    def add_edge(self,u,v, weight):
+        return
+
+    def delete_edge(self,u,v) -> bool:
+        return
+
+    #returns the linked list of the given vertex
+    def getNeighbors(self,u):
+        return
+
+    #returns whether or not two vertices are neighbors
+    def isAdjacent(self,u,v) -> bool:
+        return
 
 # insertion_sort sorts an array in O(n^2)
 def insertion_sort(array) -> list:
