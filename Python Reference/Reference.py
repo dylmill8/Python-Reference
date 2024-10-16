@@ -381,6 +381,7 @@ class Min_Heap():
             heap[parent], heap[index] = heap[index], heap[parent]
             self.swim_up(heap, parent)
 
+# This class implements a graph as an adjacency list where adjacent nodes are stored as linked lists
 class Adjacency_List:
     def __init__(self):
         self.adjacent = {}
