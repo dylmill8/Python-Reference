@@ -226,7 +226,6 @@ class BST():
                 else: self.root = j
                 j.right = i.right
             else:
-                print(True)
                 while j.right:
                     j_parent = j
                     j = j.right
